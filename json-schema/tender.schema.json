@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "Source": {
+      "description": "Fuente de la licitación.",
+      "enum": [
+        "placsp",
+        "ted",
+        "autonomic",
+        "other"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "TenderStatus": {
+      "description": "Estado en el ciclo de vida de una licitación.",
+      "enum": [
+        "discovered",
+        "screened",
+        "analyzed",
+        "scored",
+        "notified",
+        "interested",
+        "discarded",
+        "partner",
+        "go"
+      ],
+      "title": "TenderStatus",
+      "type": "string"
+    }
+  },
+  "description": "Licitación tras la ingesta y normalización.\n\nEs el modelo común que `tender-ingestion-service` produce y `tender-api` persiste.",
+  "properties": {
+    "id": {
+      "description": "Identificador interno (UUID).",
+      "title": "Id",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/Source",
+      "description": "Fuente: placsp | ted | autonomic | other."
+    },
+    "source_id": {
+      "description": "Identificador del expediente en la fuente.",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "summary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Objeto/resumen del anuncio.",
+      "title": "Summary"
+    },
+    "cpv": {
+      "description": "Códigos CPV.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Cpv",
+      "type": "array"
+    },
+    "buyer": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Órgano de contratación.",
+      "title": "Buyer"
+    },
+    "budget_amount": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Importe (sin IVA).",
+      "title": "Budget Amount"
+    },
+    "currency": {
+      "default": "EUR",
+      "maxLength": 3,
+      "minLength": 3,
+      "title": "Currency",
+      "type": "string"
+    },
+    "publication_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Publication Date"
+    },
+    "deadline": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Fin de presentación de ofertas.",
+      "title": "Deadline"
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "URL del anuncio en la fuente.",
+      "title": "Url"
+    },
+    "status": {
+      "$ref": "#/$defs/TenderStatus",
+      "default": "discovered"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Created At"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Updated At"
+    }
+  },
+  "required": [
+    "id",
+    "source",
+    "source_id",
+    "title"
+  ],
+  "title": "Tender",
+  "type": "object"
+}

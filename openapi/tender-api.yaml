@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: tender-api
+  version: 0.1.0
+  description: >
+    API núcleo de Keedio Tender Radar. Esqueleto de referencia; la definición autoritativa la
+    genera FastAPI en tiempo de ejecución (/openapi.json) en el repo tender-api. Los esquemas de
+    datos provienen de tender-shared-contracts (json-schema/).
+paths:
+  /health:
+    get:
+      summary: Estado del servicio
+      responses:
+        "200":
+          description: OK
+  /api/tenders:
+    get:
+      summary: Listar licitaciones
+      responses:
+        "200":
+          description: Lista de licitaciones
+    post:
+      summary: Crear/ingerir una licitación
+      responses:
+        "201":
+          description: Creada
+  /api/tenders/{id}:
+    get:
+      summary: Ficha de una licitación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Licitación
+        "404":
+          description: No encontrada
+  /api/tenders/{id}/score:
+    get:
+      summary: Score Go/No-Go de la licitación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Score
+  /api/tenders/{id}/actions:
+    post:
+      summary: Registrar una acción humana (interesa/descartar/partner/…)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Acción registrada

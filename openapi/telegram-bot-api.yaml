@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: telegram-bot-api (interno)
+  version: 0.1.0
+  description: >
+    Endpoints internos opcionales del tender-telegram-bot (p. ej. para forzar el envío del radar
+    o recibir webhooks). El bot consume tender-api; aquí solo se documenta su superficie interna.
+paths:
+  /health:
+    get:
+      summary: Estado del bot
+      responses:
+        "200":
+          description: OK
+  /internal/send-daily-digest:
+    post:
+      summary: Forzar el envío del radar diario
+      responses:
+        "202":
+          description: Envío encolado
+  /internal/webhook:
+    post:
+      summary: Webhook de Telegram (si se usa modo webhook en vez de polling)
+      responses:
+        "200":
+          description: Procesado

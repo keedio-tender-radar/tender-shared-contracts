@@ -1,0 +1,27 @@
+[project]
+name = "tender-contracts"
+version = "0.1.0"
+description = "Contratos compartidos (modelos Pydantic) de Keedio Tender Radar"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.6"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "python" }
+
+[tool.setuptools.packages.find]
+where = ["python"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+pythonpath = ["python"]
+testpaths = ["tests"]

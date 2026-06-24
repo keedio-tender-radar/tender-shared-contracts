@@ -1,0 +1,189 @@
+{
+  "$defs": {
+    "FactorKind": {
+      "description": "Signo de un factor explicativo del score.",
+      "enum": [
+        "positive",
+        "negative"
+      ],
+      "title": "FactorKind",
+      "type": "string"
+    },
+    "Recommendation": {
+      "description": "Recomendación Go/No-Go.",
+      "enum": [
+        "go",
+        "revisar",
+        "partner",
+        "no_go"
+      ],
+      "title": "Recommendation",
+      "type": "string"
+    },
+    "ScoreBreakdown": {
+      "description": "Sub-scores por dimensión. Los máximos son los pesos del modelo (suman 100).",
+      "properties": {
+        "technical_fit": {
+          "description": "Encaje técnico (máx 30).",
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Technical Fit",
+          "type": "integer"
+        },
+        "budget_fit": {
+          "description": "Presupuesto y margen (máx 15).",
+          "maximum": 15,
+          "minimum": 0,
+          "title": "Budget Fit",
+          "type": "integer"
+        },
+        "technical_solvency": {
+          "description": "Solvencia técnica (máx 15).",
+          "maximum": 15,
+          "minimum": 0,
+          "title": "Technical Solvency",
+          "type": "integer"
+        },
+        "economic_solvency": {
+          "description": "Solvencia económica (máx 10).",
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Economic Solvency",
+          "type": "integer"
+        },
+        "deadline": {
+          "description": "Plazo disponible (máx 10).",
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Deadline",
+          "type": "integer"
+        },
+        "partner_need": {
+          "description": "Necesidad de partner (máx 5).",
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Partner Need",
+          "type": "integer"
+        },
+        "documental_complexity": {
+          "description": "Complejidad documental (máx 5).",
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Documental Complexity",
+          "type": "integer"
+        },
+        "contractual_risk": {
+          "description": "Riesgo contractual (máx 5).",
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Contractual Risk",
+          "type": "integer"
+        },
+        "incompatibility_risk": {
+          "description": "Riesgo incompatibilidad (máx 5).",
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Incompatibility Risk",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "technical_fit",
+        "budget_fit",
+        "technical_solvency",
+        "economic_solvency",
+        "deadline",
+        "partner_need",
+        "documental_complexity",
+        "contractual_risk",
+        "incompatibility_risk"
+      ],
+      "title": "ScoreBreakdown",
+      "type": "object"
+    },
+    "ScoreFactor": {
+      "description": "Factor explicativo (positivo o negativo) del score, en lenguaje natural.",
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/FactorKind"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "message"
+      ],
+      "title": "ScoreFactor",
+      "type": "object"
+    }
+  },
+  "description": "Resultado del scoring de una licitación.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "tender_id": {
+      "title": "Tender Id",
+      "type": "string"
+    },
+    "total": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Total",
+      "type": "integer"
+    },
+    "breakdown": {
+      "$ref": "#/$defs/ScoreBreakdown"
+    },
+    "recommendation": {
+      "$ref": "#/$defs/Recommendation"
+    },
+    "hard_rules": {
+      "description": "Reglas duras activadas (overrides).",
+      "items": {
+        "type": "string"
+      },
+      "title": "Hard Rules",
+      "type": "array"
+    },
+    "factors": {
+      "items": {
+        "$ref": "#/$defs/ScoreFactor"
+      },
+      "title": "Factors",
+      "type": "array"
+    },
+    "model_version": {
+      "default": "1.0.0",
+      "description": "Versión del modelo de scoring.",
+      "title": "Model Version",
+      "type": "string"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Created At"
+    }
+  },
+  "required": [
+    "id",
+    "tender_id",
+    "total",
+    "breakdown",
+    "recommendation"
+  ],
+  "title": "TenderScore",
+  "type": "object"
+}

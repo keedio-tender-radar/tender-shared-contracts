@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "NotificationItem": {
+      "description": "Una licitación dentro de una notificación.",
+      "properties": {
+        "tender_id": {
+          "title": "Tender Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Score",
+          "type": "integer"
+        },
+        "recommendation": {
+          "$ref": "#/$defs/Recommendation"
+        },
+        "budget_amount": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Amount"
+        },
+        "currency": {
+          "default": "EUR",
+          "maxLength": 3,
+          "minLength": 3,
+          "title": "Currency",
+          "type": "string"
+        },
+        "deadline": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deadline"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "tender_id",
+        "title",
+        "score",
+        "recommendation"
+      ],
+      "title": "NotificationItem",
+      "type": "object"
+    },
+    "NotificationStats": {
+      "description": "Cifras agregadas del radar diario.",
+      "properties": {
+        "analyzed": {
+          "minimum": 0,
+          "title": "Analyzed",
+          "type": "integer"
+        },
+        "relevant": {
+          "minimum": 0,
+          "title": "Relevant",
+          "type": "integer"
+        },
+        "prioritized": {
+          "minimum": 0,
+          "title": "Prioritized",
+          "type": "integer"
+        },
+        "discarded": {
+          "minimum": 0,
+          "title": "Discarded",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "analyzed",
+        "relevant",
+        "prioritized",
+        "discarded"
+      ],
+      "title": "NotificationStats",
+      "type": "object"
+    },
+    "NotificationType": {
+      "description": "Tipo de notificación enviada.",
+      "enum": [
+        "daily_digest",
+        "urgent_alert"
+      ],
+      "title": "NotificationType",
+      "type": "string"
+    },
+    "Recommendation": {
+      "description": "Recomendación Go/No-Go.",
+      "enum": [
+        "go",
+        "revisar",
+        "partner",
+        "no_go"
+      ],
+      "title": "Recommendation",
+      "type": "string"
+    }
+  },
+  "description": "Notificación enviada a un canal (Telegram en el MVP).",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/NotificationType"
+    },
+    "channel": {
+      "default": "telegram",
+      "title": "Channel",
+      "type": "string"
+    },
+    "stats": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NotificationStats"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Presente en el radar diario."
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/NotificationItem"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "sent_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sent At"
+    }
+  },
+  "required": [
+    "id",
+    "type"
+  ],
+  "title": "Notification",
+  "type": "object"
+}

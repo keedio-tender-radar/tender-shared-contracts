@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "DocumentType": {
+      "description": "Tipo de documento de un expediente.",
+      "enum": [
+        "pcap",
+        "ppt",
+        "anexo",
+        "modelo",
+        "other"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    }
+  },
+  "description": "Documento de un expediente (pliego, anexo, modelo).",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "tender_id": {
+      "title": "Tender Id",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/DocumentType",
+      "default": "other"
+    },
+    "filename": {
+      "title": "Filename",
+      "type": "string"
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "URL de descarga en la fuente.",
+      "title": "Url"
+    },
+    "storage_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Clave en MinIO/S3.",
+      "title": "Storage Key"
+    },
+    "content_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content Type"
+    },
+    "size_bytes": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Size Bytes"
+    },
+    "extracted": {
+      "default": false,
+      "description": "¿Texto ya extraído?",
+      "title": "Extracted",
+      "type": "boolean"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Created At"
+    }
+  },
+  "required": [
+    "id",
+    "tender_id",
+    "filename"
+  ],
+  "title": "TenderDocument",
+  "type": "object"
+}
